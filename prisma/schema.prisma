@@ -14,14 +14,16 @@ datasource db {
 }
 
 model Organization {
-  id               String @id @default(uuid())
+  id               String  @id @default(uuid())
   name             String
   responsible_name String
-  email            String @unique
+  email            String  @unique
   zip_code         String
   address          String
   whatsapp         String
   password_hash    String
+  latitude         Decimal
+  longitude        Decimal
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -32,7 +34,7 @@ model Organization {
 }
 
 model Pet {
-  id                 String   @id @default(uuid())
+  id                 String @id @default(uuid())
   name               String
   about              String
   age                String
@@ -40,8 +42,6 @@ model Pet {
   energy_level       String
   independence_level String
   environment        String
-  photos             String[]
-  requirements       String[]
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt

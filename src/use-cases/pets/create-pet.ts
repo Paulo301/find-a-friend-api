@@ -11,8 +11,6 @@ interface CreatePetUseCaseParams {
   energy_level: string;
   independence_level: string;
   environment: string;
-  photos: string[];
-  requirements: string[];
   organizationId: string;
 }
 
