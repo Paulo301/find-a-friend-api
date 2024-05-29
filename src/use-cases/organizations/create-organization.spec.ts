@@ -13,7 +13,10 @@ describe("Create Pet Use Case", () => {
 
   it("should be able to create a pet", async () => {
     const { organization } = await sut.execute({
-      address: "Algum lugar",
+      state: "Maranhão",
+      city: "São Luís",
+      neighborhood: "Habitacional Turu",
+      street: "Avenida Dois",
       email: "email@email.com",
       name: "Seu cãopanheiro",
       responsible_name: "John Doe",

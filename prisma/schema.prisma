@@ -14,16 +14,21 @@ datasource db {
 }
 
 model Organization {
-  id               String  @id @default(uuid())
+  id               String @id @default(uuid())
   name             String
   responsible_name String
-  email            String  @unique
-  zip_code         String
-  address          String
+  email            String @unique
   whatsapp         String
   password_hash    String
-  latitude         Decimal
-  longitude        Decimal
+
+  zip_code     String
+  state        String
+  city         String
+  neighborhood String
+  street       String
+
+  latitude  Decimal
+  longitude Decimal
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt

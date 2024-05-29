@@ -7,7 +7,10 @@ interface CreateOrganizationUseCaseParams {
   responsible_name: string;
   email: string;
   zip_code: string;
-  address: string;
+  state: string;
+  city: string;
+  neighborhood: string;
+  street: string;
   whatsapp: string;
   password: string;
   latitude: number;

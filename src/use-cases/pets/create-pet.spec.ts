@@ -15,7 +15,10 @@ describe("Create Pet Use Case", () => {
 
     await organizationsRepository.create({
       id: "organization-01",
-      address: "Algum lugar",
+      state: "Maranhão",
+      city: "São Luís",
+      neighborhood: "Habitacional Turu",
+      street: "Avenida Dois",
       email: "email@email.com",
       name: "Seu cãopanheiro",
       responsible_name: "John Doe",
@@ -32,9 +35,9 @@ describe("Create Pet Use Case", () => {
       name: "Fido",
       about: "Its a dog",
       age: "Filhote",
-      energy_level: "Baixo",
+      energyLevel: "Baixo",
       size: "Pequenino",
-      independence_level: "Baixo (pprecisa de companhia sempre)",
+      independenceLevel: "Baixo (pprecisa de companhia sempre)",
       environment: "Ambiente amplo",
       organizationId: "organization-01",
     });

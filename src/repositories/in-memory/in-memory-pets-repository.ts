@@ -1,9 +1,12 @@
 import { Pet, Prisma } from "@prisma/client";
-import { PetsRepository } from "../pets-repository";
+import { PetsRepository, SearchManyParams } from "../pets-repository";
 import { randomUUID } from "node:crypto";
+import { InMemoryOrganizationsRepository } from "./in-memory-organzations-repository";
 
 export class InMemoryPetsRepository implements PetsRepository {
   public items: Pet[] = [];
+
+  constructor(private orgsRepository: InMemoryOrganizationsRepository) {}
 
   async create(data: Prisma.PetUncheckedCreateInput) {
     const pet = {
@@ -23,5 +26,29 @@ export class InMemoryPetsRepository implements PetsRepository {
     this.items.push(pet);
 
     return pet;
+  }
+
+  async searchMany(params: SearchManyParams) {
+    const orgs = this.orgsRepository.items.filter(
+      (item) => item.city === params.city
+    );
+    const pets = this.items
+      .filter((item) => orgs.some((org) => org.id === item.organization_id))
+      .filter((item) => (params.age ? params.age === item.age : true))
+      .filter((item) =>
+        params.energyLevel ? params.energyLevel === item.energy_level : true
+      )
+      .filter((item) =>
+        params.environment ? params.environment === item.environment : true
+      )
+      .filter((item) =>
+        params.independenceLevel
+          ? params.independenceLevel === item.independence_level
+          : true
+      )
+      .filter((item) => (params.name ? params.name === item.name : true))
+      .filter((item) => (params.size ? params.size === item.size : true));
+
+    return pets;
   }
 }

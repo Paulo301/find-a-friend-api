@@ -8,8 +8,8 @@ interface CreatePetUseCaseParams {
   about: string;
   age: string;
   size: string;
-  energy_level: string;
-  independence_level: string;
+  energyLevel: string;
+  independenceLevel: string;
   environment: string;
   organizationId: string;
 }
@@ -27,7 +27,7 @@ export class CreatePetUseCase {
   async execute(
     data: CreatePetUseCaseParams
   ): Promise<CreatePetUseCaseResponse> {
-    const { organizationId, ...rest } = data;
+    const { organizationId, energyLevel, independenceLevel, ...rest } = data;
 
     const organization = this.organizationsRepository.findById(organizationId);
 
@@ -37,6 +37,8 @@ export class CreatePetUseCase {
 
     const pet = await this.petsRepository.create({
       ...rest,
+      energy_level: energyLevel,
+      independence_level: independenceLevel,
       organization_id: organizationId,
     });
 
