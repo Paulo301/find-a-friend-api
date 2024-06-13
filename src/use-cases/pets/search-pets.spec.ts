@@ -2,16 +2,17 @@ import { InMemoryOrganizationsRepository } from "@/repositories/in-memory/in-mem
 import { InMemoryPetsRepository } from "@/repositories/in-memory/in-memory-pets-repository";
 import { CreatePetUseCase } from "./create-pet";
 import { beforeEach, describe, expect, it } from "vitest";
+import { SearchPetsUseCase } from "./search-pets";
 
 let organizationsRepository: InMemoryOrganizationsRepository;
 let petsRepository: InMemoryPetsRepository;
-let sut: CreatePetUseCase;
+let sut: SearchPetsUseCase;
 
 describe("Create Pet Use Case", () => {
   beforeEach(async () => {
     organizationsRepository = new InMemoryOrganizationsRepository();
     petsRepository = new InMemoryPetsRepository(organizationsRepository);
-    sut = new CreatePetUseCase(petsRepository, organizationsRepository);
+    sut = new SearchPetsUseCase(petsRepository);
 
     await organizationsRepository.create({
       id: "organization-01",
@@ -30,18 +31,35 @@ describe("Create Pet Use Case", () => {
     });
   });
 
-  it("should be able to create a pet", async () => {
-    const { pet } = await sut.execute({
+  it("should be able to search for pets", async () => {
+    await petsRepository.create({
       name: "Fido",
       about: "Its a dog",
       age: "Filhote",
-      energyLevel: "Baixo",
+      energy_level: "Baixo",
       size: "Pequenino",
-      independenceLevel: "Baixo (pprecisa de companhia sempre)",
+      independence_level: "Baixo (pprecisa de companhia sempre)",
       environment: "Ambiente amplo",
-      organizationId: "organization-01",
+      organization_id: "organization-01",
     });
 
-    expect(pet.id).toEqual(expect.any(String));
+    await petsRepository.create({
+      name: "Rex",
+      about: "Its a dog",
+      age: "Filhote",
+      energy_level: "Baixo",
+      size: "Pequenino",
+      independence_level: "Baixo (pprecisa de companhia sempre)",
+      environment: "Ambiente amplo",
+      organization_id: "organization-01",
+    });
+
+    const { pets } = await sut.execute({
+      name: "Fido",
+      city: "São Luís",
+    });
+
+    expect(pets).toHaveLength(1);
+    expect(pets).toEqual([expect.objectContaining({ name: "Fido" })]);
   });
 });
