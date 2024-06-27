@@ -4,7 +4,7 @@ import { FastifyInstance } from "fastify";
 import request from "supertest";
 
 export async function createAndAuthenticateOrganization(app: FastifyInstance) {
-  await prisma.organization.create({
+  const organization = await prisma.organization.create({
     data: {
       state: "Maranhão",
       city: "São Luís",
@@ -30,5 +30,6 @@ export async function createAndAuthenticateOrganization(app: FastifyInstance) {
 
   return {
     token,
+    organization,
   };
 }

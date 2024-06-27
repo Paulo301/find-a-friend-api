@@ -11,7 +11,7 @@ describe("Create Organization (e2e)", () => {
     await app.close();
   });
 
-  it("should be able to create a orgazation", async () => {
+  it("should be able to create a organization", async () => {
     const response = await request(app.server).post("/organizations").send({
       state: "Maranhão",
       city: "São Luís",
