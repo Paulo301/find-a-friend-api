@@ -1,9 +1,29 @@
 services:
   find-a-friend-api-pg:
     image: bitnami/postgresql
+    container_name: postgresql
     ports:
       - 5432:5432
     environment:
       - POSTGRESQL_USERNAME=docker
       - POSTGRESQL_PASSWORD=docker
       - POSTGRESQL_DATABASE=findafriend
+    networks:
+      - network
+  find-a-friend-api:
+    build:
+      context: .
+    container_name: find-a-friend-api
+    ports:
+      - "3333:3000"
+    depends_on:
+      - find-a-friend-api-pg
+    networks:
+      - network
+
+networks:
+  network:
+    driver: bridge
+
+volumes:
+  db:
