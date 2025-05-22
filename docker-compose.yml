@@ -4,6 +4,8 @@ services:
     container_name: postgresql
     ports:
       - 5432:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     environment:
       - POSTGRESQL_USERNAME=docker
       - POSTGRESQL_PASSWORD=docker
@@ -15,9 +17,11 @@ services:
       context: .
     container_name: find-a-friend-api
     ports:
-      - "3333:3000"
+      - 3333:3333
     depends_on:
       - find-a-friend-api-pg
+    env_file:
+      - .env
     networks:
       - network
 
@@ -26,4 +30,4 @@ networks:
     driver: bridge
 
 volumes:
-  db:
+  postgres_data:
