@@ -15,7 +15,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v6
         with:
-          node-version: 20.19.2-alpine3.21
+          node-version: 20.19.2
           cache: "npm"
       - run: npm install
       - run: npm run test
