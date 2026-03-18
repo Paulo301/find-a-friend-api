@@ -9,16 +9,22 @@ jobs:
   build:
     name: "Build and Push"
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node: [16, 18, 20]
 
     steps:
       - uses: actions/checkout@v6
-      - name: Setup node | ${{ matrix.node }}
+      - name: Setup node
         uses: actions/setup-node@v6
         with:
-          node-version: ${{ matrix.node }}
+          node-version: 20.19.2
           cache: "npm"
       - run: npm install
       - run: npm run test
+
+      - name: Generate tag
+        id: generate_tag
+        run: |
+          SHA=$(echo $GITHUB_SHA | head -c7)
+          echo "sha=$SHA" >> $GITHUB_OUTPUT
+
+      - name: Build docker image
+        run: docker build -t find-a-friend-api:${{steps.generate_tag.outputs.sha}}
