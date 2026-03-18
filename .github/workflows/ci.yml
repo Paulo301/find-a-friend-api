@@ -32,8 +32,13 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build docker image
-        run: docker build -t paulolemosdev/find-a-friend-api:${{ steps.generate_tag.outputs.sha }} .
+      - name: Build and push
+        uses: docker/build-push-action@v7
+        with:
+          push: true
+          tags: paulolemosdev/find-a-friend-api:${{ steps.generate_tag.outputs.sha }}, paulolemosdev/find-a-friend-api:latest
+      # - name: Build docker image
+      #   run: docker build -t paulolemosdev/find-a-friend-api:${{ steps.generate_tag.outputs.sha }} .
 
-      - name: Push image
-        run: docker push paulolemosdev/find-a-friend-api:${{ steps.generate_tag.outputs.sha }}
+      # - name: Push image
+      #   run: docker push paulolemosdev/find-a-friend-api:${{ steps.generate_tag.outputs.sha }}
