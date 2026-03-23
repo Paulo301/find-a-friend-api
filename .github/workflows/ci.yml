@@ -5,6 +5,10 @@ name: CI
 #     branches:
 #       - main
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   build:
     name: "Build and Push"
@@ -30,7 +34,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v6.0.0
         with:
           aws-region: us-east-2
-          role-to-assume: arn:aws-cn:iam::123456789100:role/my-github-actions-role
+          role-to-assume: ecr-role
 
       - name: Login to AWS ECR
         id: login-ecr
