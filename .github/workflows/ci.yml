@@ -40,8 +40,8 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v6.0.0
         with:
-          aws-region: us-east-2
-          role-to-assume: ecr-role
+          aws-region: ${{ secrets.AWS_REGION }}
+          role-to-assume: ${{ secrets.AWS_LOGIN_ROLE }}
 
       - name: Login to AWS ECR
         id: login-ecr
@@ -64,10 +64,10 @@ jobs:
         id: deploy-app-runner
         uses: awslabs/amazon-app-runner-deploy@main
         with:
-          service: find-a-friend-api
+          service: ${{ vars.SERVICE_NAME }}
           image: ${{ steps.build-docker-image.outputs.image }}
-          access-role-arn: arn/app-runner-role
-          region: us-east-2
+          access-role-arn: ${{ secrets.AWS_APP_RUNNER_ROLE}}
+          region: ${{ secrets.AWS_REGION }}
           cpu: 1
           memory: 2
           prot: 3333
